@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/Code/">
+    <Project Path="Code/Aids/Aids.csproj" />
+    <Project Path="Code/Data/Data.csproj" />
+    <Project Path="Code/Infra/Infra.csproj" />
+    <Project Path="Code/Logic/Logic.csproj" />
+    <Project Path="Code/Razor/Razor.csproj" />
+  </Folder>
+  <Folder Name="/Soft/" />
+  <Folder Name="/Soft/Movies/">
+    <Project Path="Soft/Abc.Soft.Movies/Abc.Soft.Movies.Client/Abc.Soft.Movies.Client.csproj" />
+    <Project Path="Soft/Abc.Soft.Movies/Abc.Soft.Movies/Abc.Soft.Movies.csproj" />
+  </Folder>
+  <Folder Name="/Soft/ToDo/">
+    <Project Path="Soft/Abc.Soft.ToDo/Abc.Soft.ToDo Server/Abc.Soft.ToDo.csproj" />
+    <Project Path="Soft/Abc.Soft.ToDo/Abc.Soft.ToDo.Client/Abc.Soft.ToDo.Client.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Tests.Aids/Tests.Aids.csproj" Id="3af3a007-8dad-48e1-8364-f8254fcf4a3a" />
+  </Folder>
+</Solution>
