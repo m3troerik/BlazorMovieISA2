@@ -8,12 +8,16 @@
   </Folder>
   <Folder Name="/Soft/" />
   <Folder Name="/Soft/Movies/">
-    <Project Path="Soft/Abc.Soft.Movie/Abc.Soft.Movie.Client/Abc.Soft.Movie.Client.csproj" Id="6409d2c1-e477-4d4c-bcf3-9eb4bb338dd7" />
-    <Project Path="Soft/Abc.Soft.Movie/Abc.Soft.Movie/Abc.Soft.Movie.csproj" Id="f885df85-744c-4557-80f1-31a9b66a44f3" />
+    <Project Path="Soft/Abc.Soft.Movie/Abc.Soft.Movie.Client/Abc.Soft.Movie.Client.csproj" Id="6409d2c1-e477-4d4c-bcf3-9eb4bb338dd7">
+      <Build Solution="Debug|*" Project="false" />
+    </Project>
+    <Project Path="Soft/Abc.Soft.Movie/Abc.Soft.Movie/Abc.Soft.Movie.csproj" Id="f885df85-744c-4557-80f1-31a9b66a44f3">
+      <Build Solution="Debug|*" Project="false" />
+    </Project>
   </Folder>
   <Folder Name="/Soft/ToDo/">
-    <Project Path="Soft/Abc.Soft.ToDo/Abc.Soft.ToDo Server/Abc.Soft.ToDo.csproj" />
-    <Project Path="Soft/Abc.Soft.ToDo/Abc.Soft.ToDo.Client/Abc.Soft.ToDo.Client.csproj" />
+    <Project Path="Soft/Todo/Client/Todo.Client.csproj" />
+    <Project Path="Soft/Todo/Server/Todo.csproj" />
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Tests/Tests.Aids/Tests.Aids.csproj" Id="3af3a007-8dad-48e1-8364-f8254fcf4a3a" />
