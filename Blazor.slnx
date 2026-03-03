@@ -1,11 +1,11 @@
 <Solution>
   <Folder Name="/Code/">
-    <Project Path="../Blasor - gunnar/Code/Shared/Shared.csproj" />
     <Project Path="Code/Aids/Aids.csproj" />
     <Project Path="Code/Data/Data.csproj" />
     <Project Path="Code/Domain/Domain.csproj" Id="1672db67-9737-4eca-acf1-ba29637687d0" />
     <Project Path="Code/Infra/Infra.csproj" />
     <Project Path="Code/Logic/Jobs.csproj" />
+    <Project Path="Code/Shared/Shared.csproj" />
   </Folder>
   <Folder Name="/Soft/" />
   <Folder Name="/Soft/Movies/">

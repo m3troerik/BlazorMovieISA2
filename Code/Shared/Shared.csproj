@@ -12,7 +12,7 @@
   <ItemGroup>
     <SupportedPlatform Include="browser" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.*" />
-    <ProjectReference Include="..\Jobs\Jobs.csproj" />
+    <ProjectReference Include="C:\Users\erikm\source\repos\Blazor\Code\Logic\Jobs.csproj" />
   </ItemGroup>
 
 </Project>
