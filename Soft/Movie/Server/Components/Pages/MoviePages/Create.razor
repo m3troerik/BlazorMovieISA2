@@ -1,0 +1,47 @@
+﻿@page "/movies/create"
+@using Microsoft.EntityFrameworkCore
+@using Abc.Shared.Components
+@using Abc.Data
+@inject IDbContextFactory<Abc.Soft.Movies.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Movie</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Movie" OnValidSubmit="AddMovie" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <MyEditItem TValue="string" Id="title" Label="Title:" Value="Movie.Title" ValueChanged="(string value) => Movie.Title = value" ValueExpression="() => Movie.Title" />
+            <MyEditItem TValue="DateOnly" Id="releasedate" Label="ReleaseDate:" Value="Movie.ReleaseDate" ValueChanged="(DateOnly value) => Movie.ReleaseDate = value" ValueExpression="() => Movie.ReleaseDate" />
+            <MyEditItem TValue="string" Id="genre" Label="Genre:" Value="Movie.Genre" ValueChanged="(string value) => Movie.Genre = value" ValueExpression="() => Movie.Genre" />
+            <MyEditItem TValue="decimal" Id="price" Label="Price:" Value="Movie.Price" ValueChanged="(decimal value) => Movie.Price = value" ValueExpression="() => Movie.Price" />
+            <MyEditItem TValue="string" Id="rating" Label="Rating:" Value="Movie.Rating" ValueChanged="(string value) => Movie.Rating = value" ValueExpression="() => Movie.Rating" />
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/movies">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Movie Movie { get; set; } = default!;
+
+    protected override void OnInitialized() => Movie ??= new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddMovie()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Movie.Add(Movie);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/movies");
+    }
+}

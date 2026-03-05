@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Abc.Soft.Movie.Models
+namespace Abc.Data
 {
     public class Movie
     {
@@ -26,5 +26,7 @@ namespace Abc.Soft.Movie.Models
         [Required]
         [RegularExpression(@"^(G|PG|PG-13|R|NC-17)$")]
         public string? Rating { get; set; }
+
+        public string? Rsadsad { get; set; }
     }
 }

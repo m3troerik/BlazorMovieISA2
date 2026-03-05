@@ -1,0 +1,99 @@
+﻿@page "/currencies/edit"
+@using Microsoft.EntityFrameworkCore
+@using Abc.Data
+@inject IDbContextFactory<Abc.Soft.Movies.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Currency</h2>
+<hr />
+@if (Currency is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Currency" OnValidSubmit="UpdateCurrency" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Currency.Id" value="@Currency.Id" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="Currency.Name" class="form-control" />
+                    <ValidationMessage For="() => Currency.Name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="code" class="form-label">Code:</label>
+                    <InputText id="code" @bind-Value="Currency.Code" class="form-control" />
+                    <ValidationMessage For="() => Currency.Code" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="symbol" class="form-label">Symbol:</label>
+                    <InputText id="symbol" @bind-Value="Currency.Symbol" class="form-control" />
+                    <ValidationMessage For="() => Currency.Symbol" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/currencies">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Currency? Currency { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Currency ??= await context.Currencies.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Currency is null)
+        {
+            NavigationManager.NotFound();
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateCurrency()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Currency!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CurrencyExists(Currency!.Id))
+            {
+                NavigationManager.NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/currencies");
+    }
+
+    private bool CurrencyExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Currencies.Any(e => e.Id == id);
+    }
+}

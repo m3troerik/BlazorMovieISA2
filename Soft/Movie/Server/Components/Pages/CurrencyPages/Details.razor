@@ -1,0 +1,50 @@
+﻿@page "/currencies/details"
+@using Microsoft.EntityFrameworkCore
+@using Abc.Data
+@inject IDbContextFactory<Abc.Soft.Movies.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Currency</h2>
+    <hr />
+    @if (currency is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@currency.Name</dd>
+            <dt class="col-sm-2">Code</dt>
+            <dd class="col-sm-10">@currency.Code</dd>
+            <dt class="col-sm-2">Symbol</dt>
+            <dd class="col-sm-10">@currency.Symbol</dd>
+        </dl>
+        <div>
+            <a href="@($"/currencies/edit?id={currency.Id}")">Edit</a> |
+            <a href="@($"/currencies")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Currency? currency;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        currency = await context.Currencies.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (currency is null)
+        {
+            NavigationManager.NotFound();
+        }
+    }
+}
