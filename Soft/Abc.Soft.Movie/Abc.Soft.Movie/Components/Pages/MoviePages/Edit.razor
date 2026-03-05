@@ -28,6 +28,7 @@ else
                 <MyEditItem TValue="DateOnly" Id="releasedate" Label="ReleaseDate:" Value="Movie!.ReleaseDate" ValueChanged="(DateOnly value) => Movie!.ReleaseDate = value" ValueExpression="() => Movie!.ReleaseDate" />
                 <MyEditItem TValue="string" Id="genre" Label="Genre:" Value="Movie!.Genre" ValueChanged="(string value) => Movie!.Genre = value" ValueExpression="() => Movie!.Genre" />
                 <MyEditItem TValue="decimal" Id="price" Label="Price:" Value="Movie!.Price" ValueChanged="(decimal value) => Movie!.Price = value" ValueExpression="() => Movie!.Price" />
+                <MyEditItem TValue="string" Id="rating" Label="Rating:" Value="Movie!.Rating" ValueChanged="(string value) => Movie!.Rating = value" ValueExpression="() => Movie!.Rating" />
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>

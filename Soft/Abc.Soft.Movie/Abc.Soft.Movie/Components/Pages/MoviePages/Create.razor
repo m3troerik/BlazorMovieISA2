@@ -15,31 +15,11 @@
         <EditForm method="post" Model="Movie" OnValidSubmit="AddMovie" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
-            <div class="mb-3">
-                <label for="title" class="form-label">Title:</label> 
-                <InputText id="title" @bind-Value="Movie.Title" class="form-control" /> 
-                <ValidationMessage For="() => Movie.Title" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="releasedate" class="form-label">ReleaseDate:</label> 
-                <InputDate id="releasedate" @bind-Value="Movie.ReleaseDate" class="form-control" /> 
-                <ValidationMessage For="() => Movie.ReleaseDate" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="genre" class="form-label">Genre:</label> 
-                <InputText id="genre" @bind-Value="Movie.Genre" class="form-control" /> 
-                <ValidationMessage For="() => Movie.Genre" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="price" class="form-label">Price:</label> 
-                <InputNumber id="price" @bind-Value="Movie.Price" class="form-control" /> 
-                <ValidationMessage For="() => Movie.Price" class="text-danger" /> 
-            </div>
-            <div class="mb-3">
-                <label for="rating" class="form-label">Rating:</label>
-                <InputText id="rating" @bind-Value="Movie.Rating" class="form-control" />
-                <ValidationMessage For="() => Movie.Rating" class="text-danger" />
-            </div>
+            <MyEditItem TValue="string" Id="title" Label="Title:" Value="Movie.Title" ValueChanged="(string value) => Movie.Title = value" ValueExpression="() => Movie.Title" />
+            <MyEditItem TValue="DateOnly" Id="releasedate" Label="ReleaseDate:" Value="Movie.ReleaseDate" ValueChanged="(DateOnly value) => Movie.ReleaseDate = value" ValueExpression="() => Movie.ReleaseDate" />
+            <MyEditItem TValue="string" Id="genre" Label="Genre:" Value="Movie.Genre" ValueChanged="(string value) => Movie.Genre = value" ValueExpression="() => Movie.Genre" />
+            <MyEditItem TValue="decimal" Id="price" Label="Price:" Value="Movie.Price" ValueChanged="(decimal value) => Movie.Price = value" ValueExpression="() => Movie.Price" />
+            <MyEditItem TValue="string" Id="rating" Label="Rating:" Value="Movie.Rating" ValueChanged="(string value) => Movie.Rating = value" ValueExpression="() => Movie.Rating" />
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
