@@ -6,7 +6,7 @@ namespace Abc.Tests.Data;
 public class Country
 {
     [TestClass]
-    public sealed class CountryTests : BaseTests<Movie>
+    public sealed class CountryTests : BaseTests<Country>
     {
 
 

@@ -6,7 +6,7 @@ namespace Abc.Tests.Data;
 public class Currency
 {
     [TestClass]
-    public sealed class CurrencyTests : BaseTests<Movie>
+    public sealed class CurrencyTests : BaseTests<Currency>
     {
 
 
