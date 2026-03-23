@@ -25,11 +25,11 @@ else
                 <DataAnnotationsValidator />
                 <ValidationSummary role="alert"/>
                 <input type="hidden" name="Movie.Id" value="@Movie.Id" />
-                <MyEditItem TValue="string" Id="title" Label="Title:" Value="Movie!.Title" ValueChanged="(string value) => Movie!.Title = value" ValueExpression="() => Movie!.Title" />
-                <MyEditItem TValue="DateOnly" Id="releasedate" Label="ReleaseDate:" Value="Movie!.ReleaseDate" ValueChanged="(DateOnly value) => Movie!.ReleaseDate = value" ValueExpression="() => Movie!.ReleaseDate" />
-                <MyEditItem TValue="string" Id="genre" Label="Genre:" Value="Movie!.Genre" ValueChanged="(string value) => Movie!.Genre = value" ValueExpression="() => Movie!.Genre" />
-                <MyEditItem TValue="decimal" Id="price" Label="Price:" Value="Movie!.Price" ValueChanged="(decimal value) => Movie!.Price = value" ValueExpression="() => Movie!.Price" />
-                <MyEditItem TValue="string" Id="rating" Label="Rating:" Value="Movie!.Rating" ValueChanged="(string value) => Movie!.Rating = value" ValueExpression="() => Movie!.Rating" />
+                <MyPropertyEditor TValue="string" Id="title" Label="Title:" Value="Movie!.Title" ValueChanged="(string value) => Movie!.Title = value" ValueExpression="() => Movie!.Title" />
+                <MyPropertyEditor TValue="DateOnly" Id="releasedate" Label="ReleaseDate:" Value="Movie!.ReleaseDate" ValueChanged="(DateOnly value) => Movie!.ReleaseDate = value" ValueExpression="() => Movie!.ReleaseDate" />
+                <MyPropertyEditor TValue="string" Id="genre" Label="Genre:" Value="Movie!.Genre" ValueChanged="(string value) => Movie!.Genre = value" ValueExpression="() => Movie!.Genre" />
+                <MyPropertyEditor TValue="decimal" Id="price" Label="Price:" Value="Movie!.Price" ValueChanged="(decimal value) => Movie!.Price = value" ValueExpression="() => Movie!.Price" />
+                <MyPropertyEditor TValue="string" Id="rating" Label="Rating:" Value="Movie!.Rating" ValueChanged="(string value) => Movie!.Rating = value" ValueExpression="() => Movie!.Rating" />
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>

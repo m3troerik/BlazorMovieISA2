@@ -17,11 +17,13 @@
         <p><em>Loading...</em></p>
     }
     else {
-        <MyViewItem Label="Title" Value="@movie.Title"/>
-        <MyViewItem Label="ReleaseDate" Value="@movie.ReleaseDate.ToString()"/>
-        <MyViewItem Label="Genre" Value="@movie.Genre"/>
-        <MyViewItem Label="Price" Value="@movie.Price.ToString()"/>
-        <MyViewItem Label="Rating" Value="@movie.Rating"/>
+		<MyEntityViewer Entity="movie" />
+
+        //   <MyViewItem Label="Title" Value="@movie.Title"/>
+        // <MyViewItem Label="ReleaseDate" Value="@movie.ReleaseDate.ToString()"/>
+        // <MyViewItem Label="Genre" Value="@movie.Genre"/>
+        // <MyViewItem Label="Price" Value="@movie.Price.ToString()"/>
+        // <MyViewItem Label="Rating" Value="@movie.Rating"/>
         <div>
             <a href="@($"/movies/edit?id={movie.Id}")">Edit</a> |
             <a href="@($"/movies")">Back to List</a>
