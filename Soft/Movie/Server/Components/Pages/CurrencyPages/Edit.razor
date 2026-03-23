@@ -33,9 +33,9 @@ else
                     <ValidationMessage For="() => Currency.Code" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="symbol" class="form-label">Symbol:</label>
-                    <InputText id="symbol" @bind-Value="Currency.Symbol" class="form-control" />
-                    <ValidationMessage For="() => Currency.Symbol" class="text-danger" />
+                    <label for="numericCode" class="form-label">Numeric Code:</label>
+                    <InputText id="numericCode" @bind-Value="Currency.NumericCode" class="form-control" />
+                    <ValidationMessage For="() => Currency.NumericCode" class="text-danger" />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
@@ -49,7 +49,7 @@ else
 
 @code {
     [SupplyParameterFromQuery]
-    private int Id { get; set; }
+    private Guid Id { get; set; }
 
     [SupplyParameterFromForm]
     private Currency? Currency { get; set; }
@@ -91,7 +91,7 @@ else
         NavigationManager.NavigateTo("/currencies");
     }
 
-    private bool CurrencyExists(int id)
+    private bool CurrencyExists(Guid id)
     {
         using var context = DbFactory.CreateDbContext();
         return context.Currencies.Any(e => e.Id == id);

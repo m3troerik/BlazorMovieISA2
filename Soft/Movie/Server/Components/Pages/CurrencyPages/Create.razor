@@ -26,9 +26,9 @@
                 <ValidationMessage For="() => Currency.Code" class="text-danger" /> 
             </div>        
             <div class="mb-3">
-                <label for="symbol" class="form-label">Symbol:</label> 
-                <InputText id="symbol" @bind-Value="Currency.Symbol" class="form-control" /> 
-                <ValidationMessage For="() => Currency.Symbol" class="text-danger" /> 
+                <label for="numericCode" class="form-label">Numeric Code:</label> 
+                <InputText id="numericCode" @bind-Value="Currency.NumericCode" class="form-control" /> 
+                <ValidationMessage For="() => Currency.NumericCode" class="text-danger" /> 
             </div>        
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>

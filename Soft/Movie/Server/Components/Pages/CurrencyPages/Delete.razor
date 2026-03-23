@@ -26,8 +26,8 @@
             <dd class="col-sm-10">@currency.Code</dd>
         </dl>
         <dl class="row">
-            <dt class="col-sm-2">Symbol</dt>
-            <dd class="col-sm-10">@currency.Symbol</dd>
+            <dt class="col-sm-2">Numeric Code</dt>
+            <dd class="col-sm-10">@currency.NumericCode</dd>
         </dl>
         <EditForm method="post" Model="currency" OnValidSubmit="DeleteCurrency" FormName="delete" Enhance>
             <button type="submit" class="btn btn-danger" disabled="@(currency is null)">Delete</button> |
@@ -40,7 +40,7 @@
     private Currency? currency;
 
     [SupplyParameterFromQuery]
-    private int Id { get; set; }
+    private Guid Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -21,8 +21,8 @@
             <dd class="col-sm-10">@currency.Name</dd>
             <dt class="col-sm-2">Code</dt>
             <dd class="col-sm-10">@currency.Code</dd>
-            <dt class="col-sm-2">Symbol</dt>
-            <dd class="col-sm-10">@currency.Symbol</dd>
+            <dt class="col-sm-2">Numeric Code</dt>
+            <dd class="col-sm-10">@currency.NumericCode</dd>
         </dl>
         <div>
             <a href="@($"/currencies/edit?id={currency.Id}")">Edit</a> |
@@ -35,7 +35,7 @@
     private Currency? currency;
 
     [SupplyParameterFromQuery]
-    private int Id { get; set; }
+    private Guid Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

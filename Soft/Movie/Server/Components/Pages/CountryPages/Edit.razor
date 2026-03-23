@@ -44,7 +44,7 @@ else
 
 @code {
     [SupplyParameterFromQuery]
-    private int Id { get; set; }
+    private Guid Id { get; set; }
 
     [SupplyParameterFromForm]
     private Country? Country { get; set; }
@@ -86,7 +86,7 @@ else
         NavigationManager.NavigateTo("/countries");
     }
 
-    private bool CountryExists(int id)
+    private bool CountryExists(Guid id)
     {
         using var context = DbFactory.CreateDbContext();
         return context.Countries.Any(e => e.Id == id);

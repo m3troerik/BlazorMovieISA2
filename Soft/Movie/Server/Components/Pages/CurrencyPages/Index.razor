@@ -17,7 +17,7 @@
 <QuickGrid Class="table" Items="context.Currencies">
     <PropertyColumn Property="currency => currency.Name" />
     <PropertyColumn Property="currency => currency.Code" />
-    <PropertyColumn Property="currency => currency.Symbol" />
+    <PropertyColumn Property="currency => currency.NumericCode" />
 
     <TemplateColumn Context="currency">
         <a href="@($"currencies/edit?id={currency.Id}")">Edit</a> |
