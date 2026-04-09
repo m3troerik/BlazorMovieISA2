@@ -10,5 +10,7 @@ namespace Abc.Data
         public bool IsIsoCountry { get; set; }
         public bool IsLoyaltyProgram { get; set; }
         public string IsoCode { get; set; } = "";
+        public string Capital { get; set; } = "";
+        public IEnumerable<CountryCurrency> Currencies { get; set; } = [];
     }
 }
