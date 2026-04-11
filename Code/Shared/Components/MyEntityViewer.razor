@@ -1,7 +1,25 @@
-﻿@foreach (var p in Entity.GetType().GetProperties()) {
-    <MyPropertyViewer Label="@p.Name" Value="@p.GetValue(Entity)?.ToString()"/>
+﻿@using System.Reflection
+
+@foreach (var p in Entity?.GetType().GetProperties() ?? [])
+{
+	if (!show(p)) continue;
+
+	<MyPropertyViewer Label="@p.Name" Value="@p.GetValue(Entity)?.ToString()" />
 }
 
 @code {
-    [Parameter] public object Entity { get; set; }
+	[Parameter] public object Entity { get; set; }
+
+	private bool show(PropertyInfo p)
+	{
+		if (p is null) return false;
+		if (p.Name == "Id") return false;
+
+		var t = p.PropertyType;
+
+		if (t.IsArray) return false;
+		if (t.IsClass && t != typeof(string)) return false;
+
+		return true;
+	}
 }

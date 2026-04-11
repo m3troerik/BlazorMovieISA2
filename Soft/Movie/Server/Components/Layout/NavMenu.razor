@@ -1,62 +1,22 @@
-﻿@implements IDisposable
-
-@inject NavigationManager NavigationManager
-@inject AuthenticationStateProvider AuthenticationStateProvider
-
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Movie App</a>
-    </div>
+﻿<div class="top-row ps-3 navbar navbar-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="">Movies</a>
+	</div>
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <MyNavLink Href="" Match="NavLinkMatch.All" IconClass="home-icon" Text="Home" />
-        <MyNavLink Href="movies" IconClass="movie-icon" Text="Movies" />
-        <MyNavLink Href="countries" IconClass="home-icon" Text="Countries" />
-        <MyNavLink Href="currencies" IconClass="cash-icon" Text="Currency" />
-        <MyNavLink Href="counter" IconClass="counter-icon" Text="Counter" />
-        <MyNavLink Href="weather" IconClass="list-icon" Text="Weather" />
-        <MyNavLink Href="auth" IconClass="lock-icon" Text="Auth Required" />
+	<nav class="nav flex-column">
 
-        <AuthorizeView>
-            <Authorized>
-                <MyNavLink Href="Account/Manage" IconClass="person-icon" Text="@Name" />
-                <MyNavLink Href="Account/Logout" IconClass="arrow-icon" Text="Logout">
-                    <AntiforgeryToken />
-                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                </MyNavLink>
-            </Authorized>
-            <NotAuthorized>
-                <MyNavLink Href="Account/Register" IconClass="register-icon" Text="Register" />
-                <MyNavLink Href="Account/Login" IconClass="badge-icon" Text="Login" />
-            </NotAuthorized>
-        </AuthorizeView>
-    </nav>
+		<MyNavLink Href="" Match="NavLinkMatch.All" IconClass="home-icon" Text="Home" />
+		<MyNavLink Href="movies" IconClass="movie-icon" Text="Movies" />
+		<MyNavLink Href="countries" IconClass="home-icon" Text="Countries" />
+		<MyNavLink Href="currencies" IconClass="home-icon" Text="Currencies" />
+		<MyNavLink Href="countrycurrencies" IconClass="home-icon" Text="Currency Use" />
+		<MyNavLink Href="monies" IconClass="home-icon" Text="Monies" />
+		<MyNavLink Href="counter" IconClass="counter-icon" Text="Counter" />
+		<MyNavLink Href="weather" IconClass="list-icon" Text="Weather" />
+
+	</nav>
 </div>
-
-@code {
-    private string? currentUrl;
-    private string? Name;
-        
-    protected override async Task OnInitializedAsync()
-    {
-        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        Name = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.Identity?.Name;
-        NavigationManager.LocationChanged += OnLocationChanged;
-    }
-
-    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
-    {
-        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
-        StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        NavigationManager.LocationChanged -= OnLocationChanged;
-    }
-}
-

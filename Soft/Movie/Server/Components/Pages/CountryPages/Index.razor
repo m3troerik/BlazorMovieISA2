@@ -1,37 +1,22 @@
 ﻿@page "/countries"
-@using Microsoft.EntityFrameworkCore
-@using Microsoft.AspNetCore.Components.QuickGrid
 @using Abc.Data
-@using Abc.Soft.Movies.Data
-@implements IAsyncDisposable
-@inject IDbContextFactory<Abc.Soft.Movies.Data.ApplicationDbContext> DbFactory
+@using Abc.Infra
+@inject NavigationManager NavigationManager
+@inject ICountriesRepo repo
 
-<PageTitle>Index</PageTitle>
-
-<h1>Index</h1>
-
-<p>
-    <a href="countries/create">Create New</a>
-</p>
-
-<QuickGrid Class="table" Items="context.Countries">
-    <PropertyColumn Property="country => country.Name" />
-    <PropertyColumn Property="country => country.Code" />
-
-    <TemplateColumn Context="country">
-        <a href="@($"countries/edit?id={country.Id}")">Edit</a> |
-        <a href="@($"countries/details?id={country.Id}")">Details</a> |
-        <a href="@($"countries/delete?id={country.Id}")">Delete</a>
-    </TemplateColumn>
-</QuickGrid>
+<MyIndexPage
+	TItem="Country"
+	PageTitleText="Countries"
+	EntityTitle="Countries"
+	Items="countries"
+	BasePath="countries">
+</MyIndexPage>
 
 @code {
-    private ApplicationDbContext context = default!;
+	private IQueryable<Country> countries = Enumerable.Empty<Country>().AsQueryable();
 
-    protected override void OnInitialized()
-    {
-        context = DbFactory.CreateDbContext();
-    }
-
-    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+	protected override async Task OnInitializedAsync() {
+		if (repo is null) return;
+		countries = (await repo.GetAsync()).AsQueryable();
+	}
 }

@@ -1,18 +1,18 @@
-﻿@page "/currencies/details"
+﻿@page "/monies/details"
 @using Abc.Data
 @using Abc.Infra
-@inject ICurrenciesRepo repo
+@inject IMoniesRepo repo
 @inject NavigationManager NavigationManager
 
 <MyDetailsPage
-	PageTitleText="Details Currency"
-	EntityTitle="Currency"
+	PageTitleText="Details Money"
+	EntityTitle="Money"
 	Entity="item"
 	EntityId="item?.Id"
-	BasePath="/currencies" />
+	BasePath="/monies" />
 
 @code {
-	private Currency item;
+	private Money item;
 	[SupplyParameterFromQuery] private int Id { get; set; }
 
 	protected override async Task OnInitializedAsync() {

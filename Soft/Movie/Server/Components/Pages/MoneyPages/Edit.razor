@@ -1,31 +1,28 @@
-﻿@page "/currencies/edit"
+﻿@page "/monies/edit"
 @using Abc.Data
 @using Abc.Infra
-@inject ICurrenciesRepo repo
+@inject IMoniesRepo repo
 @inject NavigationManager NavigationManager
 
 <MyEditPage
-	PageTitleText="Edit Currency"
-	EntityTitle="@item?.Name"
+	PageTitleText="Edit Money"
+	EntityTitle="Money"
 	Entity="item"
-	BasePath="/currencies"
+	BasePath="/monies"
 	EntityId="@Id"
 	OnValidSubmit="update" />
 
 @code {
 	[SupplyParameterFromQuery] private int Id { get; set; }
-	[SupplyParameterFromForm(Name = nameof(Currency))] private Currency item { get; set; }
+	[SupplyParameterFromForm] private Money item { get; set; }
 
 	protected override async Task OnInitializedAsync() {
 		item ??= await repo.GetAsync(Id);
-		if (item is null) {
-			NavigationManager.NavigateTo("/404", true);
-			return;
-		}
+		if (item is null) NavigationManager.NavigateTo("/404", true);
 	}
 
 	private async Task update() {
 		await repo.UpdateAsync(item!);
-		NavigationManager.NavigateTo("/currencies");
+		NavigationManager.NavigateTo("/monies");
 	}
 }

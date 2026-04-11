@@ -1,94 +1,28 @@
 ﻿@page "/countries/edit"
-@using Microsoft.EntityFrameworkCore
 @using Abc.Data
-@inject IDbContextFactory<Abc.Soft.Movies.Data.ApplicationDbContext> DbFactory
+@using Abc.Infra
+@inject ICountriesRepo repo
 @inject NavigationManager NavigationManager
 
-<PageTitle>Edit</PageTitle>
-
-<h1>Edit</h1>
-
-<h2>Country</h2>
-<hr />
-@if (Country is null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div class="row">
-        <div class="col-md-4">
-            <EditForm method="post" Model="Country" OnValidSubmit="UpdateCountry" FormName="edit" Enhance>
-                <DataAnnotationsValidator />
-                <ValidationSummary role="alert"/>
-                <input type="hidden" name="Country.Id" value="@Country.Id" />
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name:</label>
-                    <InputText id="name" @bind-Value="Country.Name" class="form-control" />
-                    <ValidationMessage For="() => Country.Name" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="code" class="form-label">Code:</label>
-                    <InputText id="code" @bind-Value="Country.Code" class="form-control" />
-                    <ValidationMessage For="() => Country.Code" class="text-danger" />
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </EditForm>
-        </div>
-    </div>
-}
-
-<div>
-    <a href="/countries">Back to List</a>
-</div>
+<MyEditPage
+	PageTitleText="Edit Country"
+	EntityTitle="@country?.Name"
+	Entity="country"
+	BasePath="/countries"
+	EntityId="@Id"
+	OnValidSubmit="updateCountry" />
 
 @code {
-    [SupplyParameterFromQuery]
-    private Guid Id { get; set; }
+	[SupplyParameterFromQuery] private int Id { get; set; }
+	[SupplyParameterFromForm] private Country country { get; set; }
 
-    [SupplyParameterFromForm]
-    private Country? Country { get; set; }
+	protected override async Task OnInitializedAsync() {
+		country ??= await repo.GetAsync(Id);
+		if (country is null) NavigationManager.NavigateTo("/404", true);
+	}
 
-    protected override async Task OnInitializedAsync()
-    {
-        using var context = DbFactory.CreateDbContext();
-        Country ??= await context.Countries.FirstOrDefaultAsync(m => m.Id == Id);
-
-        if (Country is null)
-        {
-            NavigationManager.NotFound();
-        }
-    }
-
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
-    private async Task UpdateCountry()
-    {
-        using var context = DbFactory.CreateDbContext();
-        context.Attach(Country!).State = EntityState.Modified;
-
-        try
-        {
-            await context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryExists(Country!.Id))
-            {
-                NavigationManager.NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-
-        NavigationManager.NavigateTo("/countries");
-    }
-
-    private bool CountryExists(Guid id)
-    {
-        using var context = DbFactory.CreateDbContext();
-        return context.Countries.Any(e => e.Id == id);
-    }
+	private async Task updateCountry() {
+		await repo.UpdateAsync(country!);
+		NavigationManager.NavigateTo("/countries");
+	}
 }

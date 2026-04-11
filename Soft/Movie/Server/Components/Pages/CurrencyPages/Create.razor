@@ -1,56 +1,19 @@
 ﻿@page "/currencies/create"
-@using Microsoft.EntityFrameworkCore
 @using Abc.Data
-@inject IDbContextFactory<Abc.Soft.Movies.Data.ApplicationDbContext> DbFactory
+@using Abc.Infra
+@inject ICurrenciesRepo repo
 @inject NavigationManager NavigationManager
 
-<PageTitle>Create</PageTitle>
-
-<h1>Create</h1>
-
-<h2>Currency</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <EditForm method="post" Model="Currency" OnValidSubmit="AddCurrency" FormName="create" Enhance>
-            <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" role="alert"/>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label> 
-                <InputText id="name" @bind-Value="Currency.Name" class="form-control" /> 
-                <ValidationMessage For="() => Currency.Name" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="code" class="form-label">Code:</label> 
-                <InputText id="code" @bind-Value="Currency.Code" class="form-control" /> 
-                <ValidationMessage For="() => Currency.Code" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="numericCode" class="form-label">Numeric Code:</label> 
-                <InputText id="numericCode" @bind-Value="Currency.NumericCode" class="form-control" /> 
-                <ValidationMessage For="() => Currency.NumericCode" class="text-danger" /> 
-            </div>        
-            <button type="submit" class="btn btn-primary">Create</button>
-        </EditForm>
-    </div>
-</div>
-
-<div>
-    <a href="/currencies">Back to List</a>
-</div>
+<MyCreatePage Entity="item" EntityTitle="Currency" BasePath="/currencies" OnValidSubmit="add" />
 
 @code {
-    [SupplyParameterFromForm]
-    private Currency Currency { get; set; } = default!;
+	[SupplyParameterFromForm(Name = nameof(Currency))]
+	private Currency item { get; set; } = default!;
 
-    protected override void OnInitialized() => Currency ??= new();
+	protected override void OnInitialized() => item ??= new();
 
-    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
-    private async Task AddCurrency()
-    {
-        using var context = DbFactory.CreateDbContext();
-        context.Currencies.Add(Currency);
-        await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/currencies");
-    }
+	private async Task add() {
+		await repo.CreateAsync(item);
+		NavigationManager.NavigateTo("/currencies");
+	}
 }

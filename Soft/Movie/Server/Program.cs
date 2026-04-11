@@ -1,89 +1,49 @@
-﻿using Abc.Soft.Movies.Client.Pages;
-using Abc.Soft.Movies.Components;
-using Abc.Soft.Movies.Components.Account;
-using Abc.Soft.Movies.Data;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Abc.Soft.Movies.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Abc.Soft.Movies.Data;
+using Abc.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddDbContextFactory<AbcSoftMovieContext>(options =>
-  //  options.UseSqlServer(builder.Configuration.GetConnectionString("AbcSoftMovieContext") ?? throw new InvalidOperationException("Connection string 'AbcSoftMovieContext' not found.")));
+builder.Services.AddDbContextFactory<AbcSoftMoviesContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AbcSoftMoviesContext") ?? throw new InvalidOperationException("Connection string 'AbcSoftMoviesContext' not found.")));
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents()
-    .AddAuthenticationStateSerialization();
-
-
-builder.Services.AddCascadingAuthenticationState();
-builder.Services.AddScoped<IdentityRedirectManager>();
-builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    })
-    .AddIdentityCookies();
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<ApplicationUser>(options =>
-    {
-        options.SignIn.RequireConfirmedAccount = true;
-        options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
-    })
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddSignInManager()
-    .AddDefaultTokenProviders();
+builder.Services.AddScoped<IMoviesRepo, MoviesRepo>();
+builder.Services.AddScoped<ICountriesRepo, CountriesRepo>();
+builder.Services.AddScoped<ICurrenciesRepo, CurrenciesRepo>();
+builder.Services.AddScoped<IMoniesRepo, MoniesRepo>();
+builder.Services.AddScoped<ICountryCurrenciesRepo, CountryCurrenciesRepo>();
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+// Add services to the container.
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 
 var app = builder.Build();
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
 
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-
     SeedData.Initialize(services);
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-    app.UseMigrationsEndPoint();
-}
-else
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
     app.UseMigrationsEndPoint();
 }
-app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
+
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Abc.Soft.Movies.Client._Imports).Assembly);
-
-// Add additional endpoints required by the Identity /Account Razor components.
-app.MapAdditionalIdentityEndpoints();
+    .AddInteractiveServerRenderMode();
 
 app.Run();

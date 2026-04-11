@@ -1,5 +1,26 @@
-﻿<h3>MyEntityEditor</h3>
+﻿@using System.Reflection
+
+@foreach (var p in Entity?.GetType().GetProperties() ?? [])
+{
+	if (!show(p)) continue;
+
+	<MyPropertyEditor Item="@Entity" PropertyName="@p.Name" />
+}
 
 @code {
+	[Parameter] public object Entity { get; set; }
 
+	private bool show(PropertyInfo p)
+	{
+		if (p is null) return false;
+		if (p.Name == "Id") return false;
+		if (p.Name == "Timestamp") return false;
+
+		var t = p.PropertyType;
+
+		if (t.IsArray) return false;
+		if (t.IsClass && t != typeof(string)) return false;
+
+		return true;
+	}
 }
