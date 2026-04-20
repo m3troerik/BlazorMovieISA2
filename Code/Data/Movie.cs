@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Abc.Data;
 
+[Table("Movie")]
 public class Movie : NamedEntity
 {
     [DisplayName("Title")]

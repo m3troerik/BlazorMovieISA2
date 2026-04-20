@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="C:\Users\erikm\source\repos\Blazor\Code\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\..\Code\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using Abc.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContextFactory<AbcSoftMoviesContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AbcSoftMoviesContext") ?? throw new InvalidOperationException("Connection string 'AbcSoftMoviesContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
