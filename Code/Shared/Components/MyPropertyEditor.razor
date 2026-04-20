@@ -1,15 +1,13 @@
+@using System.Reflection
+
 <dl class="row">
-	@if (hasProperty)
+	@if (property is not null)
 	{
 		<dt class="col-md-4">
-			<label for="@PropertyName" class="form-label">@inputLabel</label>
+			<label for="@PropertyName" class="form-label">@PropertyName</label>
 		</dt>
 		<dd class="col-md-8">
-			@if (hasEditor)
-			{
-				<DynamicComponent Type="@editorType" Parameters="@editorParams" />
-				<DynamicComponent Type="@validationType" Parameters="@validationParams" />
-			}
+			<input id="@PropertyName" class="form-control" value="@value" @onchange="onChange" />
 		</dd>
 	}
 </dl>
@@ -17,14 +15,21 @@
 @code {
 	[Parameter] public object Item { get; set; }
 	[Parameter] public string PropertyName { get; set; } = string.Empty;
-	protected override void OnParametersSet() => ad = crAdapter();
-	private IEditorAdapter crAdapter() => new EditorAdapter(this, Item, PropertyName);
-	private IEditorAdapter ad;
-	private bool hasEditor => editorType is not null;
-	private bool hasProperty => ad?.PropInfo is not null;
-	private string inputLabel => ad?.DisplayName ?? string.Empty;
-	private Type editorType => ad?.Editor;
-	private Type validationType => ad?.Validator;
-	private IDictionary<string, object> editorParams => ad?.EditorParams;
-	private IDictionary<string, object> validationParams => ad?.ValidationParams;
+
+	private PropertyInfo? property => Item?.GetType().GetProperty(PropertyName);
+	private string value => property?.GetValue(Item)?.ToString() ?? string.Empty;
+
+	private void onChange(ChangeEventArgs e)
+	{
+		if (property is null) return;
+		var input = e.Value?.ToString();
+		var targetType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+		if (string.IsNullOrWhiteSpace(input))
+		{
+			property.SetValue(Item, null);
+			return;
+		}
+		var converted = Convert.ChangeType(input, targetType);
+		property.SetValue(Item, converted);
+	}
 }

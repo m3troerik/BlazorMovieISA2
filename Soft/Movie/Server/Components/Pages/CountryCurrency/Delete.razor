@@ -1,6 +1,7 @@
-﻿@page "/movies/delete"
+﻿@page "/countrycurrencies/delete"
 @using Abc.Infra
 @using Abc.Data
+@using CountryCurrencyData = Abc.Data.CountryCurrency
 @inject ICountryCurrenciesRepo repo
 @inject NavigationManager NavigationManager
 
@@ -9,7 +10,7 @@
               Entity="item" BasePath="/countrycurrencies" OnValidSubmit="delete" />
 
 @code {
-	private CountryCurrency item;
+   private CountryCurrencyData item;
 	[SupplyParameterFromQuery] private int Id { get; set; }
 
 	protected override async Task OnInitializedAsync() {

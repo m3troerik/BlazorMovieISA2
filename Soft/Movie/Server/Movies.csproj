@@ -23,6 +23,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Code\Data\Data.csproj" />
+    <ProjectReference Include="..\..\..\Code\Infra\Infra.csproj" />
     <ProjectReference Include="..\..\..\Code\Shared\Shared.csproj" />
     <ProjectReference Include="..\Client\Movies.Client.csproj" />
   </ItemGroup>

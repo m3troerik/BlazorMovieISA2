@@ -3,6 +3,7 @@
 @inject ICountryCurrenciesRepo repo
 @inject NavigationManager NavigationManager
 @using Abc.Data
+@using CountryCurrencyData = Abc.Data.CountryCurrency
 <MyDetailsPage
 	PageTitleText="Details Country Currency"
 	EntityTitle="Country Currency"
@@ -10,7 +11,7 @@
 	EntityId="item?.Id"
 	BasePath="/countrycurrencies" />
 @code {
-	private CountryCurrency item;
+   private CountryCurrencyData item;
 	[SupplyParameterFromQuery] private int Id { get; set; }
 
 	protected override async Task OnInitializedAsync() {

@@ -2,6 +2,7 @@
 @inject ICountryCurrenciesRepo repo
 @inject NavigationManager NavigationManager
 @using Abc.Data
+@using CountryCurrencyData = Abc.Data.CountryCurrency
 @using Abc.Infra
 
 <MyEditPage
@@ -14,7 +15,7 @@
 
 @code {
 	[SupplyParameterFromQuery] private int Id { get; set; }
-	[SupplyParameterFromForm] private CountryCurrency item { get; set; }
+    [SupplyParameterFromForm] private CountryCurrencyData item { get; set; }
 
 	protected override async Task OnInitializedAsync() {
 		item ??= await repo.GetAsync(Id);

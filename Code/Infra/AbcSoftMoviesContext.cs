@@ -1,11 +1,12 @@
 ﻿using Abc.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Abc.Infra;
-    public class AbcSoftMoviesContext(DbContextOptions<AbcSoftMoviesContext> options)
-        : DbContext(options)
+public class AbcSoftMoviesContext(DbContextOptions<AbcSoftMoviesContext> options)
+    : DbContext(options)
 {
     public DbSet<Movie> Movies { get; set; } = default!;
     public DbSet<Currency> Currencies { get; set; } = default!;

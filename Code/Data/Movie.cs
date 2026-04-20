@@ -8,10 +8,18 @@ namespace Abc.Data;
 public class Movie : NamedEntity
 {
     [DisplayName("Title")]
-    public override string Name { get; set; }
+    public string Title
+    {
+        get => Name;
+        set => Name = value;
+    }
 
     [DisplayName("ReleaseDate")]
-    public override DateTime? ValidFrom { get; set; }
+    public DateTime? ReleaseDate
+    {
+        get => ValidFrom;
+        set => ValidFrom = value;
+    }
 
     public string Genre { get; set; }
 
