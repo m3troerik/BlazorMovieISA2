@@ -1,23 +1,23 @@
 ﻿using Abc.Aids;
+using System;
 
-    namespace Abc.Tests.Aids;
+namespace Aids;
 
 [TestClass]
 public sealed class CloneTests
 {
     private class Address
     {
-        public string City { get; set; } = "";
+        public string City { get; set; }
     }
 
     private class Person
     {
-        public string Name { get; set; } = "";
-        public Address Address { get; set; } = new();
+        public string Name { get; set; }
+        public Address Address { get; set; }
     }
 
-    private static Person person = null!;
-    private Person clone = null!;
+    private static Person person;
 
     [ClassInitialize]
     public static void ClassInitialize(TestContext context)
@@ -32,32 +32,24 @@ public sealed class CloneTests
         };
     }
 
-    [TestInitialize] public void TestInitialize() => clone = Abc.Aids.Clone.Object(person);
-    [TestCleanup] public void TestCleanup() => clone = null!;
+    private Person clone;
 
+    [TestInitialize]
+    public void TestInitialize() => clone = Clone.Object(person);
+    [TestCleanup] public void TestCleanup() => clone = null;
     [TestMethod] public void CloneTest() => Assert.AreNotSame(person, clone);
     [TestMethod] public void SamePersonNameTest() => Assert.AreEqual(person.Name, clone.Name);
     [TestMethod] public void SameCityTest() => Assert.AreEqual(person.Address.City, clone.Address.City);
-
-    [TestMethod]
-    public void ChangePersonNameTest()
-    {
+    [TestMethod] public void ChangePersonNameTest() {
         clone.Name = "Bla Bla";
         Assert.AreEqual("John Doe", person.Name);
     }
-
-    [TestMethod] public void NotSameAddressTest() => Assert.AreNotSame(person.Address, clone.Address);
-
-    [TestMethod]
-    public void ChangeCityTest()
-    {
+    [TestMethod] public void NotSameAddressTest() => Assert.AreNotSame(person.Address, clone.Address);  
+    [TestMethod] public void ChangeCityTest() {
         clone.Address.City = "Bla Bla";
         Assert.AreEqual("New York", person.Address.City);
     }
-
-    [TestMethod]
-    public void ChangeAddressTest()
-    {
+    [TestMethod] public void ChangeAddressTest() {
         clone.Address = new Address { City = "Bla Bla" };
         Assert.AreEqual("New York", person.Address.City);
     }

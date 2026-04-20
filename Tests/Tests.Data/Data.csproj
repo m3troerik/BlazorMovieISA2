@@ -1,18 +1,19 @@
-﻿<Project Sdk="MSTest.Sdk/4.0.1">
+﻿<Project Sdk="MSTest.Sdk/3.6.4">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <AssemblyName>Abc.Tests.Data</AssemblyName>
-    <RootNamespace>Abc.Tests.Data</RootNamespace>
     <UseVSTest>true</UseVSTest>
+	  <AssemblyName>Abc.Tests.Data</AssemblyName>
+	  <RootNamespace>Abc.Tests.Data</RootNamespace>
+	  <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Abc.Tests.Aids\Aids.csproj" />
     <ProjectReference Include="..\..\Code\Data\Data.csproj" />
-    <ProjectReference Include="..\Tests.Aids\Tests.Aids.csproj" />
   </ItemGroup>
 
 </Project>
