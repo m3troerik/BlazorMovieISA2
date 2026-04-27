@@ -1,16 +1,16 @@
-﻿using Abc.Data.Common;
+﻿using Abc.Aids;
+using Abc.Data.Common;
 
-namespace Abc.Data
+namespace Abc.Data;
+
+public sealed class Country : NamedEntity
 {
-    public sealed class Country : NamedEntity
-    {
-        public string OfficialName { get; set; } = "";
-        public string NativeName { get; set; } = "";
-        public string NumericCode { get; set; } = "";
-        public bool IsIsoCountry { get; set; }
-        public bool IsLoyaltyProgram { get; set; }
-        public string IsoCode { get; set; } = "";
-        public string Capital { get; set; } = "";
-        public IEnumerable<CountryCurrency> Currencies { get; set; } = [];
-    }
+    [Random(5, 16)] public string OfficialName { get; set; } = "";
+    [Random(5, 16)] public string NativeName { get; set; } = "";
+    [Random(3, 5, "0123456789")] public string NumericCode { get; set; } = "";
+    bool IsIsoCountry { get; set; }
+    bool IsLoyaltyProgram { get; set; }
+    [Random(4, 5, "KLMNOPQRS")] public string IsoCode { get; set; } = "";
+    public ICollection<CountryCurrency> CountryCurrencies { get; set; } = [];
+    public ICollection<Currency> Currencies => [.. CountryCurrencies.Select(c => c.Currency)];
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Reflection;
-using System.Text;
 
 namespace Abc.Aids;
 
@@ -44,23 +42,13 @@ public static class GetRandom
     }
     public static float Float(float min = float.MinValue, float max = float.MaxValue)
         => (float)Double(min, max);
-    public static string String(byte minLength = byte.MinValue, byte maxLength = (byte)sbyte.MaxValue)
+    public static decimal Decimal(decimal min = decimal.MinValue, decimal max = decimal.MaxValue)
+        => (decimal)Double((double)min, (double)max);
+    public static Guid Guid()
     {
-        var len = UInt8(minLength, maxLength);
-        var s = new char[len];
-        for (var i = 0; i < len; i++) s[i] = Char('a', 'z');
-        return new string(s);
-    }
-    public static char Char(char min = char.MinValue, char max = char.MaxValue)
-        => (char)UInt16(min, max);
-    public static bool Bool() => r.Next(2) == 0;
-
-    public static DateTime DateTime(DateTime? min = null, DateTime? max = null)
-    {
-        var minTicks = min?.Ticks ?? System.DateTime.MinValue.Ticks;
-        var maxTicks = max?.Ticks ?? System.DateTime.MaxValue.Ticks;
-        var ticks = Int64(minTicks, maxTicks);
-        return new DateTime(ticks);
+        Span<byte> buffer = stackalloc byte[16];
+        r.NextBytes(buffer);
+        return new Guid(buffer);
     }
     public static TimeSpan TimeSpan(TimeSpan? min = null, TimeSpan? max = null)
     {
@@ -69,22 +57,27 @@ public static class GetRandom
         var ticks = Int64(minTicks, maxTicks);
         return new TimeSpan(ticks);
     }
-    public static int Int(int min = int.MinValue, int max = int.MaxValue)
+    public static DateTime DateTime(DateTime? min = null, DateTime? max = null)
     {
-        if (min == max) return min;
-        if (min > max) (min, max) = (max, min);
-        return r.Next(min, max);
+        var minTicks = min?.Ticks ?? System.DateTime.MinValue.Ticks;
+        var maxTicks = max?.Ticks ?? System.DateTime.MaxValue.Ticks;
+        var ticks = Int64(minTicks, maxTicks);
+        return new DateTime(ticks);
     }
-    public static Guid Guid()
+    public static bool Bool() => r.Next(2) == 0;
+    public static char Char(char min = char.MinValue, char max = char.MaxValue)
+        => (char)UInt16(min, max);
+    public static string String(byte minLen = byte.MinValue, byte maxLen = (byte)sbyte.MaxValue, string chars = null)
     {
-        Span<byte> buffer = stackalloc byte[16];
-        r.NextBytes(buffer);
-        return new Guid(buffer);
+        var len = UInt8(minLen, maxLen);
+        var s = new char[len];
+        for (var i = 0; i < len; i++) s[i] = (chars is null) ? Char('a', 'z')
+           : chars[UInt8(0, (byte)chars.Length)];
+        return new string(s);
     }
-    public static decimal Decimal(decimal min = decimal.MinValue, decimal max = decimal.MaxValue)
-        => (decimal)Double((double)min, (double)max);
-    public static object Object(Type t)
+    public static object Object(Type t, string[] exclude = null)
     {
+        exclude = exclude ?? [];
         var x = Nullable.GetUnderlyingType(t);
         if (x is not null) t = x;
         var o = Activator.CreateInstance(t);
@@ -92,14 +85,18 @@ public static class GetRandom
         {
             if (!p.CanWrite) continue;
             if (p.PropertyType.IsArray) continue;
-            var v = isClass(p) ? Object(p.PropertyType) : Value(p.PropertyType);
+            if (exclude.Contains(p.Name)) continue;
+            var randomAttribute = p.GetCustomAttribute<RandomAttribute>();
+            var v = randomAttribute is not null
+                ? randomAttribute.CreateValue(p.PropertyType)
+                : isClass(p) ? Object(p.PropertyType) : Value(p.PropertyType);
             p.SetValue(o, v);
         }
         return o;
     }
     private static bool isClass(PropertyInfo p)
         => p.PropertyType.IsClass && p.PropertyType != typeof(string);
-    private static object Value(Type t)
+    public static object Value(Type t)
     {
         var x = Nullable.GetUnderlyingType(t);
         if (x is not null) t = x;
@@ -118,9 +115,9 @@ public static class GetRandom
         if (t == typeof(short)) return Int16();
         if (t == typeof(int)) return Int32();
         if (t == typeof(long)) return Int64();
-        if (t == typeof(TimeSpan)) return TimeSpan();
-        if (t == typeof(Guid)) return Guid();
-        if (t == typeof(int)) return Int();
-        throw new NotSupportedException($"Type {t} is not supported.");
+        //if (t == typeof(TimeSpan)) return TimeSpan();
+        //if (t == typeof(Guid)) return Guid();
+        return null;
+        //throw new NotSupportedException($"Type {t} is not supported.");
     }
 }

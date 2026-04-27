@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 
 namespace Abc.Aids;
 
@@ -15,7 +12,6 @@ public interface IPropertyAdapter
     object PropValue { get; }
     void SetValue(object value);
 }
-
 public sealed class PropertyAdapter(object item, string propName) : IPropertyAdapter
 {
     public PropertyAdapter() : this(null, null) { }

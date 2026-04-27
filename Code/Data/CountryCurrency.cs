@@ -1,14 +1,12 @@
-﻿using Abc.Data.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Abc.Aids;
+using Abc.Data.Common;
 
-namespace Abc.Data
+namespace Abc.Data;
+
+public class CountryCurrency : DetailedEntity
 {
-    public class CountryCurrency : DetailedEntity
-    {
-        public int? CountryId { get; set; }
-        public int CurrencyId { get; set; }
-        public Currency Currency { get; set; }
-    }
+    [Select(typeof(Country))] public Guid? CountryId { get; set; }
+    [Select(typeof(Currency))] public Guid? CurrencyId { get; set; }
+    public Currency Currency { get; set; }
+    public Country Country { get; set; }
 }

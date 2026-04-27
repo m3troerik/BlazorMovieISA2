@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Abc.Aids;
 
@@ -9,10 +6,11 @@ public static class Clone
 {
     public static TClass Object<TClass>(TClass obj)
         where TClass : class, new() => (TClass)clone(obj);
+
     private const BindingFlags publicInstance = BindingFlags.Public | BindingFlags.Instance;
     private static object clone(object obj)
     {
-        if (obj == null) return null!;
+        if (obj == null) return null;
         var t = obj.GetType();
         var o = Activator.CreateInstance(t);
         var props = t.GetProperties(publicInstance);
@@ -25,8 +23,7 @@ public static class Clone
         {
             if (!p.CanRead || !p.CanWrite) continue;
             var v = p.GetValue(from);
-            if (v != null && isClass(p))
-                v = clone(v);
+            if (v != null && isClass(p)) v = clone(v);
             p.SetValue(to, v);
         }
     }
