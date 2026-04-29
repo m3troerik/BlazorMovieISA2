@@ -1,38 +1,50 @@
 ﻿using Abc.Aids;
 using Abc.Data.Common;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-namespace Aids;
+
+namespace Abc.Tests.Aids;
 
 [TestClass]
-public sealed class GetRandomTests
-{
+public sealed class GetRandomTests {
     private const sbyte min = sbyte.MinValue;
     private const sbyte max = sbyte.MaxValue;
-    [TestMethod] public void Int8Test()
-        => Assert.AreNotEqual(GetRandom.Int8(min, max), GetRandom.Int8(min, max)); 
-    [TestMethod] public void Int16Test()
+    [TestMethod]
+    public void Int8Test()
+        => Assert.AreNotEqual(GetRandom.Int8(min, max), GetRandom.Int8(min, max));
+    [TestMethod]
+    public void Int16Test()
         => Assert.AreNotEqual(GetRandom.Int16(min, max), GetRandom.Int16(min, max));
-    [TestMethod] public void Int32Test()
+    [TestMethod]
+    public void Int32Test()
         => Assert.AreNotEqual(GetRandom.Int32(min, max), GetRandom.Int32(min, max));
-    [TestMethod] public void Int64Test()
+    [TestMethod]
+    public void Int64Test()
         => Assert.AreNotEqual(GetRandom.Int64(min, max), GetRandom.Int64(min, max));
-    [TestMethod] public void UInt8Test()
+    [TestMethod]
+    public void UInt8Test()
         => Assert.AreNotEqual(GetRandom.UInt8(0, (byte)max), GetRandom.UInt8(0, (byte)max));
-    [TestMethod] public void UInt16Test()
+    [TestMethod]
+    public void UInt16Test()
         => Assert.AreNotEqual(GetRandom.UInt16(0, (ushort)max), GetRandom.UInt16(0, (ushort)max));
-    [TestMethod] public void UInt32Test()
+    [TestMethod]
+    public void UInt32Test()
         => Assert.AreNotEqual(GetRandom.UInt32(0, (uint)max), GetRandom.UInt32(0, (uint)max));
-    [TestMethod] public void UInt64Test()
+    [TestMethod]
+    public void UInt64Test()
         => Assert.AreNotEqual(GetRandom.UInt64(0, (ulong)max), GetRandom.UInt64(0, (ulong)max));
-    [TestMethod] public void DoubleTest()
+    [TestMethod]
+    public void DoubleTest()
         => Assert.AreNotEqual(GetRandom.Double(min, max), GetRandom.Double(min, max));
-    [TestMethod] public void FloatTest()
+    [TestMethod]
+    public void FloatTest()
         => Assert.AreNotEqual(GetRandom.Float(min, max), GetRandom.Float(min, max));
-    [TestMethod] public void DecimalTest()
+    [TestMethod]
+    public void DecimalTest()
         => Assert.AreNotEqual(GetRandom.Decimal(min, max), GetRandom.Decimal(min, max));
-    [TestMethod] public void StringTest()
+    [TestMethod]
+    public void StringTest()
         => Assert.AreNotEqual(GetRandom.String(0, (byte)max), GetRandom.String(0, (byte)max));
-    [TestMethod] public void CharTest()
+    [TestMethod]
+    public void CharTest()
         => Assert.AreNotEqual(GetRandom.Char((char)0, (char)max), GetRandom.Char((char)0, (char)max));
     [TestMethod]
     public void BoolTest() {
@@ -44,29 +56,26 @@ public sealed class GetRandomTests
         }
         Assert.AreNotEqual(x, y);
     }
-    [TestMethod] public void DateTimeTest() {
+    [TestMethod]
+    public void DateTimeTest() {
         var minDate = DateTime.Now.AddYears(-100);
         var maxDate = DateTime.Now.AddYears(100);
         Assert.AreNotEqual(GetRandom.DateTime(minDate, maxDate), GetRandom.DateTime(minDate, maxDate));
     }
-    [TestMethod] public void TimeSpanTest() {
+    [TestMethod]
+    public void TimeSpanTest() {
         var minSpan = TimeSpan.FromTicks(DateTime.Now.AddYears(-100).Ticks);
         var maxSpan = TimeSpan.FromTicks(DateTime.Now.AddYears(100).Ticks);
         Assert.AreNotEqual(GetRandom.TimeSpan(minSpan, maxSpan), GetRandom.TimeSpan(minSpan, maxSpan));
     }
-    [TestMethod] public void IntTest()
-        => Assert.AreNotEqual(GetRandom.Int(int.MinValue, int.MaxValue), GetRandom.Int(int.MinValue, int.MaxValue));
-    [TestMethod] public void GuidTest()
-        => Assert.AreNotEqual(GetRandom.Guid(), GetRandom.Guid());
-    private class testClass : NamedEntity { }
-
     [TestMethod]
-    public void ObjectTest()
-    {
+    public void GuidTest()
+        => Assert.AreNotEqual(GetRandom.Guid(), GetRandom.Guid());
+    private class testClass: NamedEntity { }
+    [TestMethod] public void ObjectTest() {
         var o1 = GetRandom.Object(typeof(testClass));
         var o2 = GetRandom.Object(typeof(testClass));
-        foreach (var p in typeof(testClass).GetProperties())
-        {
+        foreach (var p in typeof(testClass).GetProperties()) {
             if (p.PropertyType.IsArray) continue;
             Assert.AreNotEqual(p.GetValue(o1), p.GetValue(o2));
         }
