@@ -1,4 +1,4 @@
-﻿
+
 namespace Abc.Infra;
 
 public sealed class Query(Dictionary<string, string> d = null) {
